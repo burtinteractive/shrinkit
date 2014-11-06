@@ -23,19 +23,20 @@
 			
        			/****************configuration******************/
        			level:		    'all',
-       			parent:         'nav,video,video2,img,img2,img3,verts,top',
-       			break_points:   '350,0,0,720,0,0,0,0',
-       			per_row:		'0,0,0,0'
-       			
+       			parent:         'img,nav,video,video2,img2,img3,verts,top',
+       			break_points:   '720,0,0,0,0,0,0,0',
+       			per_row:		'0,0,0,0',
+       			stretch:		'0,0,0,0,0,0,0,0'
        	});
        	$(window).resize(function(){
        	
        		$('#nav').shrink_it({
        			/****************configuration******************/
        			level:			'all',
-       			parent: 		'nav,video,video2,img,img2,img3,verts,top',
-       			break_points:   '350,0,0,720,0,0,0,0',
-       			per_row:		'0,0,0,0'
+       			parent: 		'img,nav,video,video2,img2,img3,verts,top',
+       			break_points:   '720,0,0,0,0,0,0,0',
+       			per_row:		'0,0,0,0',
+       			stretch:		'0,0,0,0,0,0,0,0'
        			
        		});
        	
@@ -86,7 +87,9 @@
 		</div>
 		</div>
 	</div>
-	<img src="untapped.jpg" id="top"/>
+	<div class="row">
+		<img src="untapped.jpg" id="top"/>
+	</div>
 	<div class="row" id="verts">
 		<img src="verticals.jpg" />
 		<img src="verticals.jpg" />
