@@ -23,8 +23,8 @@
 			
        			/****************configuration******************/
        			level:		    'all',
-       			parent:         'img,nav,video,video2,img2,img3,verts,top',
-       			break_points:   '720,0,0,0,0,0,0,0',
+       			parent:         'video,square,img,nav,video2,img2,img3,verts,top',
+       			break_points:   '0,0,720,0,0,0,0,0,0',
        			per_row:		'0,0,0,0',
        			stretch:		'0,0,0,0,0,0,0,0'
        	});
@@ -33,8 +33,8 @@
        		$('#nav').shrink_it({
        			/****************configuration******************/
        			level:			'all',
-       			parent: 		'img,nav,video,video2,img2,img3,verts,top',
-       			break_points:   '720,0,0,0,0,0,0,0',
+       			parent: 		'video,square,img,nav,video2,img2,img3,verts,top',
+       			break_points:   '0,0,720,0,0,0,0,0,0,0',
        			per_row:		'0,0,0,0',
        			stretch:		'0,0,0,0,0,0,0,0'
        			
@@ -72,9 +72,16 @@
 		<img src="untapped.jpg" />
 		<img src="untapped.jpg" />
 	</div>
+	<div class="row" id="square">
+		<img src="square.jpg" />
+		<img src="square.jpg" />
+		<img src="square.jpg" />
+		<img src="square.jpg" />
+	</div>
 	<div class="row" id="video2">
 		<iframe width="560" height="315" src="//www.youtube.com/embed/tu0qtEwb9gE" frameborder="0" allowfullscreen></iframe>
 	</div>
+	
 	<div class="row" id="video">
 		<iframe width="560" height="315" src="//www.youtube.com/embed/tu0qtEwb9gE" frameborder="0" allowfullscreen></iframe>
 		<iframe width="560" height="315" src="//www.youtube.com/embed/tu0qtEwb9gE" frameborder="0" allowfullscreen></iframe>

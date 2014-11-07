@@ -30,9 +30,12 @@
 ************************************************************************/
 (function($){
 	var $flag= true;
+	var $final_percent_array= new Array();
+	var $child_count=0;
+	var $count_flag= true;
 	$.fn.shrink_it= function(options){
 		/**************variables****************
-		* level =   how many records you want returned 
+		* level =   under development. Trying to determine best way to implement
 		* parent = how many records to return on scroll or load
 		* break_points     = if in same div they are floated and shrunk to set next to each other.
 		*					 if break point is set items will not float but maintain size at certain browser width
@@ -50,7 +53,10 @@
 		
 		}, options);
 		
-		//self = this;
+		/********************************************************************
+		*sets up all the variables that are used
+		*
+		*********************************************************************/
 		var $object = settings.parent;
 		var $level = settings.level;
 		var $break_point_array = settings.break_points.split(",");
@@ -58,53 +64,64 @@
 		var $stretch_array = settings.stretch.split(",");
 		var $width_array = new Array();
 		var $height_array = new Array();
-		var $percent_array = new Array();
 		var $number_children_array = new Array();
 		var $height_count = 0;
 		
 		var $width=0;
-	
-		parse();
 		
+		
+		if($count_flag){
+			childCount();
+		}
+		parse();
+		/********************************************************************
+		*Parse
+		*
+		*
+		*********************************************************************/
 		function parse(){
-			//console.log($level);
-			console.log($flag+ " **************************************** flag");
 			
-			//console.log($($object).attr("id"));
-			//console.log($("#"+$object))
-			console.log($(this).html());
-			console.log("test");
 			$count =0;
 			
 			$arr_count=0;
-			//$('#'+$($object).attr("id")).children().each(function () {
+		
 			while($arr_count < $object_array.length){	
 			
-				console.log($break_point_array[$arr_count]+ "-------------------------break point")
-			//	if($flag){
+			
 					$('#'+$object_array[$arr_count]).children().each(function () {
-    					//alert(this.value); // "this" is the current element in the loop
+    					
     					console.log(this + "  current parent object this is here "+ $object_array[$arr_count]);
-    					console.log(this.width+ " this is width "+ this.height);
-    				
+    					//console.log(this.width+ " this is width "+ this.height);
+    					console.log("******************************* flag---->"+ $flag);
     					if($(this).parent().width()< this.width){
     						$width=$(this).parent().width();
     					}else{
     						$width= this.width;
     					}
-    				
+    					console.log($final_percent_array.length+ " ------ "+$arr_count + " ------ "+ $flag+ "---"+($child_count) );
     					$height_array[$height_count]=$width+":"+this.height;
+    					if($flag){
+    						console.log("*********************should only be here once******************************")
+    						
+    						if($final_percent_array.length==($child_count) && $arr_count ==0 && $flag){
+    							console.log("************** setting flag");
+    							$flag=false;
+    						}
+    						$final_percent_array[$height_count]= this.height/$width;
+						}
 						$count++;
-						$height_count++;
 						
+						$height_count++;
+						console.log("--------- "+ $height_count);
 					});
-			//	}
+			
 				$number_children_array[$arr_count]= $count;
 				console.log($("#"+$object_array[$arr_count]).width()+ " <-- object width --> "+$object_array[$arr_count] );
+				
 				if($break_point_array[$arr_count]>= $('#'+$object_array[$arr_count]).width() && $break_point_array[$arr_count] != 0){
 					console.log("inside break point 2***********************************************************");
 					if($stretch_array[$arr_count]==0){
-						console.log("*******************this is it**************************")
+						console.log("*******************this is it**************************");
 						//$width_array[$arr_count]=this.width;
 						$width_array[$arr_count]=$("#"+$object_array[$arr_count]).width();
 					}else{
@@ -116,37 +133,33 @@
 					$width_array[$arr_count]=$("#"+$object_array[$arr_count]).width()/$number_children_array[$arr_count];
 				}
 				
-				//$arr_count =0;
-				$height_count=0;
-				//$count =0;
+				
 				changeSize($arr_count);
-				//$count=0;
+				
 				$arr_count++;
 			}
-			$flag= false;
-			
-						console.log($flag+ " **************************************** flag2");
-
+		
+			$height_count=0;
 		}
+		/********************************************************************
+		*Change Size
+		*
+		*variables: takes in $the_count  returns:none modifies:each object on 
+		*passed into the $object_array
+		*********************************************************************/
 		function changeSize($the_count){
 			
 			
 				$('#'+$object_array[$the_count]).children().each(function () {
-    				console.log($('#'+$object_array[$the_count]).width()+" should be the parents width right");
     				
+					$percent_count = $height_count -$number_children_array[$the_count];   
+							
+    				$percent = $final_percent_array[$percent_count];
     				
-    				console.log("********************* height count" + $height_count);
-    				//console.log($height_array[$height_count]+ " this is the height value "+ $height_count);
-    				$percent_array = $height_array[$height_count].split(":");
-    				
-    				$percent = $percent_array[1]/$percent_array[0];
-    				console.log($percent);
-    				//if have parents current width. Compare to what is in break point if <= to break point value 
-    				//set child ot that size
-    				
+    			
+    				//check if break point is set.
     				if($break_point_array[$the_count]>= $('#'+$object_array[$the_count]).width() && $break_point_array[$the_count] != 0){
-    					console.log("inside break point***********************************************************");
-    					console.log($(this).width()+" width****************************************************************")
+    				
     					this.style.width=Math.floor($('#'+$object_array[$the_count]).width())+"px";
     					this.style.height=(Math.floor($('#'+$object_array[$the_count]).width())*$percent)+"px";
     					this.style.clear="both";
@@ -160,29 +173,39 @@
     				this.style.width=Math.floor($width_array[$arr_count])+"px";
     				this.style.height=(Math.floor($width_array[$arr_count])*$percent)+"px";
     			
-    				//console.log($percent + " "+ $percent_array[0]+ " " + $percent_array[1])
+    				
     				
     			
     				 
     				
     				this.style.cssFloat ="left";
     				$count++;
-    				$height_count++;
+    				
 				});
 				
-			$height_count=0;
+			
 			$count =0;
 			
 			$width_array.length= 0;
 			
 		}
-		
-		function getElements(){
-		
-			
-			
+		/********************************************************************
+		*Change Size
+		*Counts all children elements from the id's passed in for elements
+		*variables:none  only sets the variable $child_count
+		*********************************************************************/
+		function childCount(){
+			var $temp_count=0
+			while($temp_count < $object_array.length){
+				$('#'+$object_array[$temp_count]).children().each(function () {
+					$child_count++;
+					
+				});
+				$temp_count++;
+			}
+			//set count flag to false so we only count children elements once
+			$count_flag=false;
 		}
-		
 		
 	}  
  }(jQuery));
