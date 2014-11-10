@@ -90,21 +90,16 @@
 			
 					$('#'+$object_array[$arr_count]).children().each(function () {
     					
-    					console.log(this + "  current parent object this is here "+ $object_array[$arr_count]);
-    					//console.log(this.width+ " this is width "+ this.height);
-    					console.log("******************************* flag---->"+ $flag);
+    					
     					if($(this).parent().width()< this.width){
     						$width=$(this).parent().width();
     					}else{
     						$width= this.width;
     					}
-    					console.log($final_percent_array.length+ " ------ "+$arr_count + " ------ "+ $flag+ "---"+($child_count) );
     					$height_array[$height_count]=$width+":"+this.height;
     					if($flag){
-    						console.log("*********************should only be here once******************************")
     						
     						if($final_percent_array.length==($child_count) && $arr_count ==0 && $flag){
-    							console.log("************** setting flag");
     							$flag=false;
     						}
     						$final_percent_array[$height_count]= this.height/$width;
@@ -112,16 +107,12 @@
 						$count++;
 						
 						$height_count++;
-						console.log("--------- "+ $height_count);
 					});
 			
 				$number_children_array[$arr_count]= $count;
-				console.log($("#"+$object_array[$arr_count]).width()+ " <-- object width --> "+$object_array[$arr_count] );
 				
 				if($break_point_array[$arr_count]>= $('#'+$object_array[$arr_count]).width() && $break_point_array[$arr_count] != 0){
-					console.log("inside break point 2***********************************************************");
 					if($stretch_array[$arr_count]==0){
-						console.log("*******************this is it**************************");
 						//$width_array[$arr_count]=this.width;
 						$width_array[$arr_count]=$("#"+$object_array[$arr_count]).width();
 					}else{
